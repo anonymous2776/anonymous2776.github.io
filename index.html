@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ORA3D</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+	<meta property="og:title" content="ORA3D: Overlap Region Aware Multi-view 3D Object Detection">
+    <meta property="og:url" content="https://anonymous2276.github.io/">
+	<meta property="og:image" content="./image/train.png">
+	<meta name="description" content="aaaa2022-0000">
+	<meta name="keywords" content="ORA3D: Overlap Region Aware Multi-view 3D Object Detection">
+	<meta name="author" content="....">
+    <link rel="stylesheet" type="text/css" href="stylesheet.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+<div class="title">
+    <h1>ORA3D: Overlap Region Aware<br>Multi-view 3D Object Detection</h1>
+</div>
+<div class="byline">
+    <div class="authors">
+        <div class="author">Anonymous author<sup> </sup></div>
+    </div>
+    <div class="affiliations">
+        <p class="affiliation"><sup> </sup>Anonymous</p>
+    </div>
+    <div class="links">
+        <a href="https://github.com/anonymous2276" class="link">
+            [Code]
+        </a>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="center-img">
+        <img class="content" src="./image/image.png">
+    </div>
+    <div class="sections-container">
+        <div class="section">
+            <h2 class="section-title">Abstract</h2>
+            <p>
+                In multi-view 3D object detection tasks, disparity supervi-
+sion over overlapping image regions substantially improves the overall
+detection performance. However, current multi-view 3D object detection
+methods often fail to detect objects in the overlap region properly, and
+the network’s understanding of the scene is often limited to that of a
+monocular detection network. To mitigate this issue, we advocate for
+applying the traditional stereo disparity estimation method to obtain
+reliable disparity information for the overlap region. Given the disparity
+estimates as a self-supervision, we propose to regularize the network to
+fully utilize the geometric potential of binocular images, and improve
+the overall detection accuracy. Moreover, we propose to use an adver-
+sarial overlap region discriminator, which is trained to minimize a rep-
+resentational gap between non-overlap regions and overlapping regions
+where objects are often largely occluded or suffer from deformation due
+to camera distortion, causing a domain shift. We demonstrate the ef-
+fectiveness of the proposed method with the large-scale multi-view 3D
+object detection benchmark, called nuScenes. Our experiment shows that
+our proposed method outperforms the current state-of-the-art methods.
+Our code is available in the following anonymized project web-site with
+detailed explanations: <a href="https://anonymous2776.github.io/">https://anonymous2776.github.io/</a>.
+            </p>
+        </div>
+        <div class="section">
+            <h2 class="section-title">Method</h2>
+
+            <h2 class="section-subtitle">Train / Test Overview</h2>
+            <div class="center-img">
+                <img class="content" src="./image/train.png"/>
+            </div>
+            <p style="margin-top: 30px; padding-left: 150px; margin-right: 150px;">
+                An overview of our proposed architecture. Built upon DETR3D, our model
+takes multi-view camera inputs and outputs a set of 3D bounding boxes for objects in
+the scene. Our model consists of two main modules: (1) Stereo Matching Network for
+Overlap Regions, where our depth estimation head is trained to predict a dense depth
+map of the overlap region. The ground-truth depth map is obtained by a traditional
+stereo disparity estimation algorithm. (2) Adversarial Overlap Region Discriminator,
+which minimizes the gap between the overlap region vs. the non-overlap region, im-
+proving the overall detection performance.
+            </p>
+
+        </br>
+
+        <h2 class="section-subtitle">Stereo Disparity Estimation</h2>
+        <div class="center-img">
+                <img class="content" src="./image/disparity.png"/>
+            </div>
+            <p style="margin-top: 30px; padding-left: 150px; margin-right: 150px;">
+                Stereo disparity estimation head architecture. The overlap area of the left and
+                right images is downsampled to 4 and input to the network, and the input shape is [B,
+                C, H, W], respectively. Left and right data are concatenated in the network to form a
+                cost volume through 3D convolution layer. As a result, the cost volume is upsampled
+                by 4 and output as a disparity map.
+            </p>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">Qualitative Results</h2>
+
+            <div class="example-item">
+                <img src="./image/car.gif" >
+   
+                <img src="./image/car.gif" >
+            </div>
+            <div class="example-item">
+                <img src="./image/car.gif" >
+   
+                <img src="./image/car.gif" >
+            </div>
+            <div class="example-item">
+                <img src="./image/car.gif" >
+   
+                <img src="./image/car.gif" >
+            </div>
+
+            <!-- <p>
+                Example
+            </p>
+
+            <div class="center-img">
+                <figure>
+                    <video src="./video/1_combined.mp4" controls="controls"></video>
+                    <figcaption style="text-align: center;"> 🔊Splashing Water.</figcaption>
+                </figure>
+                <figure>
+                    <video src="./video/5_combined.mp4" controls="controls"></video>
+                    <figcaption style="text-align: center;"> 🔊Splashing Water.</figcaption>
+                </figure>
+                <figure>
+                    <video src="./video/10_combined.mp4" controls="controls"></video>
+                    <figcaption style="text-align: center;"> 🔊Splashing Water.</figcaption>
+                </figure>
+            </div>
+
+            <div class="center-img">
+                <figure>
+                    <video src="./video/13_combined.mp4" controls="controls"></video>
+                    <figcaption style="text-align: center;"> 🔊Splashing Water.</figcaption>
+                </figure>
+                <figure>
+                    <video src="./video/19_combined.mp4" controls="controls"></video>
+                    <figcaption style="text-align: center;"> 🔊Splashing Water.</figcaption>
+                </figure>
+                <figure>
+                    <video src="./video/21_combined.mp4" controls="controls"></video>
+                    <figcaption style="text-align: center;"> 🔊Splashing Water.</figcaption>
+                </figure>
+            </div>
+            
+            <div class="center-img">
+                <figure>
+                    <video src="./video/22_combined.mp4" controls="controls"></video>
+                    <figcaption style="text-align: center;"> 🔊Splashing Water.</figcaption>
+                </figure>
+                <figure>
+                    <video src="./video/28_combined.mp4" controls="controls"></video>
+                    <figcaption style="text-align: center;"> 🔊Splashing Water.</figcaption>
+                </figure>
+                <figure>
+                    <video src="./video/33_combined.mp4" controls="controls"></video>
+                    <figcaption style="text-align: center;"> 🔊Splashing Water.</figcaption>
+                </figure>
+            </div>
+
+            <div class="center-img">
+                <figure>
+                    <video src="./video/47_combined.mp4" controls="controls"></video>
+                    <figcaption style="text-align: center;"> 🔊Splashing Water.</figcaption>
+                </figure>
+                <figure>
+                    <video src="./video/48_combined.mp4" controls="controls"></video>
+                    <figcaption style="text-align: center;"> 🔊Splashing Water.</figcaption>
+                </figure>
+                <figure>
+                    <video src="./video/49_combined.mp4" controls="controls"></video>
+                    <figcaption style="text-align: center;"> 🔊Splashing Water.</figcaption>
+                </figure>
+            </div>
+
+            <div class="center-img">
+                <figure>
+                    <video src="./video/2_waterfall_combined.mp4" controls="controls"></video>
+                    <figcaption style="text-align: center;"> 🔊Waterfall.</figcaption>
+                </figure>
+                <figure>
+                    <video src="./video/3_waterfall_combined.mp4" controls="controls"></video>
+                    <figcaption style="text-align: center;"> 🔊Waterfall.</figcaption>
+                </figure>
+                <figure>
+                    <video src="./video/7_waterfall_combined.mp4" controls="controls"></video>
+                    <figcaption style="text-align: center;"> 🔊Waterfall.</figcaption>
+                </figure>
+            </div>
+
+            <div class="center-img">
+                <figure>
+                    <video src="./video/5_rain_combined.mp4" controls="controls"></video>
+                    <figcaption style="text-align: center;"> 🔊Rain.</figcaption>
+                </figure>
+                <figure>
+                    <video src="./video/6_rain_combined.mp4" controls="controls"></video>
+                    <figcaption style="text-align: center;"> 🔊Rain.</figcaption>
+                </figure>
+                <figure>
+                    <video src="./video/7_rain_combined.mp4" controls="controls"></video>
+                    <figcaption style="text-align: center;"> 🔊Rain.</figcaption>
+                </figure>
+            </div>
+
+        </div> -->
+
+    </div>
+</div>
+</body>
+<script>
+
+    
+
+</script>
+</html>
